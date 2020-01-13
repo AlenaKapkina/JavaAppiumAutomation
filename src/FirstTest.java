@@ -39,7 +39,7 @@ public class FirstTest {
     public void firstTest() {
         waitForElementByXpathAndClick(
                 "//*[contains(@text, 'SKIP')]",
-                "Cannot find onboarding screen for skip it or cannot find skip batton",
+                "Cannot find onboarding screen for skip it or cannot find the skip button",
                 1
         );
 
@@ -69,7 +69,7 @@ public class FirstTest {
     public void testCancelSearch() {
         waitForElementByIdAndClick(
                 "org.wikipedia:id/fragment_onboarding_skip_button",
-                "Cannot find onboarding screen for skip it or cannot find skip button",
+                "Cannot find onboarding screen for skip it or cannot find the skip button",
                 1
         );
 
