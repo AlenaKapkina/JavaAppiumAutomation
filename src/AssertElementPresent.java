@@ -10,12 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.Assert.*;
-
-public class IfContainsSearchWord {
+public class AssertElementPresent {
     private AppiumDriver driver;
 
     @Before
@@ -39,64 +35,44 @@ public class IfContainsSearchWord {
     }
 
     @Test
-    public void isThereSearchWordInSearchResults() {
+    public void findArticleTitle() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'SKIP')]"),
                 "Cannot find onboarding screen for skip it or cannot find the skip button",
                 1
         );
 
+        String search_line_on_main_screen = "//*[contains(@text, 'Search Wikipedia')]";
+
         waitForElementAndClick(
-                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                By.xpath(search_line_on_main_screen),
                 "Cannot find 'Search Wikipedia' input",
                 5
         );
 
+        String search_request = "Java";
+
+        String search_line = "//*[@resource-id='org.wikipedia:id/search_toolbar']//*[contains(@text, 'Search Wikipedia')]";
+
         waitForElementAndSendKeys(
-                By.xpath("//*[@resource-id='org.wikipedia:id/search_toolbar']//*[contains(@text, 'Search Wikipedia')]"),
-                "Bugs",
-                "Cannot find the search line to send keys in",
+                By.xpath(search_line),
+                search_request,
+                "Cannot find search line",
                 5
         );
 
-        WebElement search_request_element = waitForElementPresent(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Cannot find the search line with search results",
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic searching by " + search_request,
                 15
         );
 
-        String search_request = search_request_element.getAttribute("text");
+        String java_article_name = "Java (programming language)";
 
-        List<String> search_result_titles = new ArrayList<>();
-
-        List<WebElement> titles = getWebElementsByViewId(
-                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title']")
+        elementPresent(
+                By.xpath("//*[@text='" + java_article_name + "']"),
+                "Cannot find article title"
         );
-
-        if (!titles.isEmpty()) {
-
-            for (WebElement element :
-                    titles) {
-                search_result_titles.add(element.getAttribute("text"));
-            }
-
-            List<Boolean> equals = new ArrayList<>();
-            int size_of_true = 0;
-            for (String title :
-                    search_result_titles) {
-                boolean isEquals = title.contains(search_request);
-                equals.add(isEquals);
-                if (isEquals) size_of_true++;
-            }
-
-            assertEquals(
-                    "Not all titles contain the search request word",
-                    search_result_titles.size(),
-                    size_of_true
-            );
-        } else {
-            System.out.println("No results find");
-        }
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
@@ -119,7 +95,8 @@ public class IfContainsSearchWord {
         return element;
     }
 
-    private List getWebElementsByViewId(By by) {
-        return driver.findElements(by);
+    private WebElement elementPresent(By by, String error_message) {
+        WebElement element = waitForElementPresent(by, error_message, 0);
+        return element;
     }
 }
