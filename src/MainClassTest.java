@@ -1,7 +1,7 @@
+import lib.CoreTestCase;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-public class MainClassTest {
+public class MainClassTest extends CoreTestCase {
 
     MainClass main = new MainClass();
 
