@@ -54,27 +54,16 @@ public class SearchPageObject extends MainPageObject {
         this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring " + substring, 15);
     }
 
-    public void checkThatTheFirstArticleIsGone() {
-        this.waitForElementNotPresent(By.xpath(FIRST_ARTICLE_IN_SEARCH_RESULTS), "Find the first article. Search results is still on the page", 5);
-    }
-
-    public void findTheSecondArticle() {
-        this.waitForElementPresent(By.xpath(SECOND_ARTICLE_IN_SEARCH_RESULTS), "Cannot find the second article or there's no articles");
-    }
-
     public void returnOnMainPageFromSearchResults() {
         this.waitForElementAndClick(By.xpath(BACK_BUTTON_ON_SEARCH_RESULT_SCREEN), "Cannot find and click the Back button", 5);
     }
 
-    public void clickOnTheElementInSearchResultsList(String substring, String search_request) {
+    public void clickByArticleWithSubstring(String substring, String search_request) {
         String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find '" + substring + "' topic searching by " + search_request, 15);
+        this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find '" + substring + "' topic searching by " + search_request + "and click on the article", 15);
     }
 
-    public void waitForArticlePresent(String substring) {
-        String article_name_xpath = getArticleName(substring);
-        this.waitForElementPresent(By.xpath(article_name_xpath), "Cannot find article title " + substring, 15);
-    }
+
 
     public void addTheArticleToFavouriteList() {
         this.waitForElementAndClick(By.id(BOOKMARK_BUTTON), "Cannot find the bookmark button to add the article to a reading list", 5);

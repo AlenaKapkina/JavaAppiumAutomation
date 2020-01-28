@@ -21,6 +21,13 @@ public class FirstTest extends CoreTestCase {
 
     @Test
     public void testSearch() {
+
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.skipGreetingOnboardingScreen();
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchRequest("Java");
+        SearchPageObject.waitForSearchResult("Object-oriented programming language");
+
 /*        MainPageObject.waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'SKIP')]"),
                 "Cannot find onboarding screen for skip it or cannot find the skip button",
@@ -47,12 +54,6 @@ public class FirstTest extends CoreTestCase {
                 "Cannot find 'Object-oriented programming language' topic searching by 'Java'",
                 15
         );*/
-
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        SearchPageObject.skipGreetingOnboardingScreen();
-        SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchRequest("Java");
-        SearchPageObject.waitForSearchResult("Object-oriented programming language");
     }
 
     @Test
