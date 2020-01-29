@@ -1,21 +1,32 @@
 import lib.CoreTestCase;
-import lib.ui.MainPageObject;
+import lib.ui.ArticlePageObject;
+import lib.ui.SearchPageObject;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 public class AssertElementPresent extends CoreTestCase {
 
-    private lib.ui.MainPageObject MainPageObject;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        MainPageObject = new MainPageObject(driver);
-    }
-
     @Test
     public void testFindArticleTitle() {
-        MainPageObject.waitForElementAndClick(
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.skipGreetingOnboardingScreen();
+        SearchPageObject.initSearchInput();
+
+        String search_request = "Java";
+
+        SearchPageObject.typeSearchRequest(search_request);
+
+        String topic_of_requested_article = "Object-oriented programming language";
+
+        SearchPageObject.clickByArticleWithSubstringToOpenIt(topic_of_requested_article, search_request);
+
+        String java_article_name = "Java (programming language)";
+
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject.waitForArticlePresentWithoutTimeout(java_article_name);
+
+
+/*        MainPageObject.waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'SKIP')]"),
                 "Cannot find onboarding screen for skip it or cannot find the skip button",
                 1
@@ -51,6 +62,6 @@ public class AssertElementPresent extends CoreTestCase {
         MainPageObject.elementPresent(
                 By.xpath("//*[@text='" + java_article_name + "']"),
                 "Cannot find article title"
-        );
+        );*/
     }
 }

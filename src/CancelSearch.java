@@ -1,22 +1,12 @@
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
-import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
 
 public class CancelSearch extends CoreTestCase {
 
-    private lib.ui.MainPageObject MainPageObject;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        MainPageObject = new MainPageObject(driver);
-    }
-
     @Test
     public void testSearchForSomethingAndCancel() {
-
         SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
         SearchPageObject.skipGreetingOnboardingScreen();
@@ -28,6 +18,7 @@ public class CancelSearch extends CoreTestCase {
         ArticlePageObject.findTheSecondArticle();
         SearchPageObject.returnOnMainPageFromSearchResults();
         ArticlePageObject.checkThatTheFirstArticleIsGone();
+
 
 /*        MainPageObject.waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'SKIP')]"),

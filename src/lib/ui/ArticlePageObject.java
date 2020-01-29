@@ -2,40 +2,38 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 public class ArticlePageObject extends MainPageObject {
 
     private static final String
-            TITLE = "//android.view.View[@text='{SUBSTRING}']",
-            SKIP_BUTTON = "//*[contains(@text, 'SKIP')]",
-            SEARCH_INIT_ELEMENT = "//*[contains(@text, 'Search Wikipedia')]",
-            SEARCH_INPUT = "//*[@resource-id='org.wikipedia:id/search_toolbar']//*[contains(@text, 'Search Wikipedia')]",
-            SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@text='{SUBSTRING}']",
+            TITLE_TPL = "//android.view.View[@text='{SUBSTRING}']",
             FIRST_ARTICLE_IN_SEARCH_RESULTS = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ListView/android.view.ViewGroup",
             SECOND_ARTICLE_IN_SEARCH_RESULTS = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ListView/android.view.ViewGroup[2]",
-            BACK_BUTTON_ON_SEARCH_RESULT_SCREEN = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[1]/android.view.ViewGroup/android.widget.ImageButton",
-
             ARTICLE_NAME_TPL = "//*[@text='{SUBSTRING}']",
             BOOKMARK_BUTTON = "org.wikipedia:id/article_menu_bookmark",
             GOT_IT_BUTTON = "org.wikipedia:id/onboarding_button",
             CREATE_NEW_FAVOURITE_LIST = "org.wikipedia:id/create_button",
-            NAME_OF_NEW_FAVOURITE_LIST = "org.wikipedia:id/text_input",
+            NAME_OF_THE_NEW_FAVOURITE_LIST = "org.wikipedia:id/text_input",
             MY_LIST_OK_BUTTON = "//*[@text='OK']",
             CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']",
-            NO_THANKS_OVERLAY_AFTER_CLOSING_THE_ADDED_ARTICLE = "//*[@text='NO THANKS']";
+            NO_THANKS_OVERLAY_AFTER_CLOSING_THE_ADDED_ARTICLE = "//*[@text='NO THANKS']",
+            NAME_OF_THE_OLD_FAVOURITE_LIST_TPL = "//*[@resource-id='org.wikipedia:id/item_title'][@text='{SUBSTRING}']";
 
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);
     }
 
     /* TEMPLATES METHODS */
-    private static String getResultSearchElement(String substring) {
-        return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    private static String getArticleXpath(String substring) {
+        return ARTICLE_NAME_TPL.replace("{SUBSTRING}", substring);
     }
 
-    private static String getArticleName(String substring) {
-        return ARTICLE_NAME_TPL.replace("{SUBSTRING}", substring);
+    private static String getArticleTitleXpath(String substring) {
+        return TITLE_TPL.replace("{SUBSTRING}", substring);
+    }
+
+    private static String getOldFavouriteListXpath(String substring) {
+        return NAME_OF_THE_OLD_FAVOURITE_LIST_TPL.replace("{SUBSTRING}", substring);
     }
     /* TEMPLATES METHODS */
 
@@ -47,21 +45,22 @@ public class ArticlePageObject extends MainPageObject {
         this.waitForElementPresent(By.xpath(SECOND_ARTICLE_IN_SEARCH_RESULTS), "Cannot find the second article or there's no articles");
     }
 
-    public WebElement waitForTitleElement() {
-        return this.waitForElementPresent(By.id(TITLE), "Cannot find article title on page", 15);
-    }
-
-    public void waitForArticlePresent(String substring) {
-        String article_name_xpath = getArticleName(substring);
+    public void waitForArticlePresentWithTimeout(String substring) {
+        String article_name_xpath = getArticleXpath(substring);
         this.waitForElementPresent(By.xpath(article_name_xpath), "Cannot find article title " + substring, 15);
     }
 
-    public String getArticleTitle() {
-        WebElement title_element = waitForTitleElement();
-        return title_element.getAttribute("text");
+    public void waitForArticlePresentWithoutTimeout(String substring) {
+        String article_name_xpath = getArticleXpath(substring);
+        this.waitForElementPresent(By.xpath(article_name_xpath), "Cannot find article title " + substring);
     }
 
-    public void addArticleToMyList(String name_of_folder) {
+    public String getArticleTitle(String substring) {
+        String article_name_xpath = getArticleTitleXpath(substring);
+        return this.waitForElementAndGetAttribute(By.xpath(article_name_xpath), "text", "Cannot find article title " + substring, 15);
+    }
+
+    public void addArticleToMyNewList(String name_of_folder) {
         this.waitForElementAndClick(
                 By.id(BOOKMARK_BUTTON),
                 "Cannot find button to add article to a reading list",
@@ -81,7 +80,7 @@ public class ArticlePageObject extends MainPageObject {
         );
 
         this.waitForElementAndSendKeys(
-                By.id(NAME_OF_NEW_FAVOURITE_LIST),
+                By.id(NAME_OF_THE_NEW_FAVOURITE_LIST),
                 name_of_folder,
                 "Cannot put text into article folder input or there's no text input field",
                 5
@@ -90,6 +89,20 @@ public class ArticlePageObject extends MainPageObject {
         this.waitForElementAndClick(
                 By.xpath(MY_LIST_OK_BUTTON),
                 "Cannot find the OK button or the button is not active or there's no text in text input field",
+                5
+        );
+    }
+
+    public void addArticleToMyOldList(String name_of_folder) {
+        this.waitForElementAndClick(
+                By.id(BOOKMARK_BUTTON),
+                "Cannot find button to add article to a reading list",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath(getOldFavouriteListXpath(name_of_folder)),
+                "Cannot find requested list by '" + name_of_folder + "' name or the list doesn't exist",
                 5
         );
     }
@@ -108,9 +121,7 @@ public class ArticlePageObject extends MainPageObject {
         this.waitForElementAndClick(
                 By.xpath(NO_THANKS_OVERLAY_AFTER_CLOSING_THE_ADDED_ARTICLE),
                 "Cannot find the NO THANKS button or the button is not active or there's no 'Sync reading lists' overlay",
-                5
+                10
         );
     }
-
-
 }
