@@ -19,7 +19,7 @@ public class ChangeScreenOrientationAfterTestToPortrait extends CoreTestCase {
 
     @Test
     public void testChangeScreenOrientationOnSearchResults() {
-        MainPageObject.waitForElementAndClick(
+        /*MainPageObject.waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'SKIP')]"),
                 "Cannot find onboarding screen for skip it or cannot find the skip button",
                 1
@@ -27,6 +27,6 @@ public class ChangeScreenOrientationAfterTestToPortrait extends CoreTestCase {
 
         driver.rotate(ScreenOrientation.LANDSCAPE);
 
-        fail("Fail test when Wikipedia in landscape orientation");
+        fail("Fail test when Wikipedia in landscape orientation");*/
     }
 }

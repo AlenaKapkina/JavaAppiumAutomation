@@ -56,7 +56,7 @@ public class FirstTest extends CoreTestCase {
         );*/
     }
 
-    @Test
+/*    @Test
     public void testCancelSearch() {
         MainPageObject.waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
@@ -471,5 +471,5 @@ public class FirstTest extends CoreTestCase {
                 "Cannot find 'Object-oriented programming language' topic after returning from background",
                 5
         );
-    }
+    }*/
 }

@@ -21,7 +21,7 @@ public class IfContainsSearchWord extends CoreTestCase {
 
     @Test
     public void testIsThereSearchWordInSearchResults() {
-        MainPageObject.waitForElementAndClick(
+        /*MainPageObject.waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'SKIP')]"),
                 "Cannot find onboarding screen for skip it or cannot find the skip button",
                 1
@@ -77,6 +77,6 @@ public class IfContainsSearchWord extends CoreTestCase {
             );
         } else {
             System.out.println("No results find");
-        }
+        }*/
     }
 }
