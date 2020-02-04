@@ -1,12 +1,13 @@
 import lib.CoreTestCase;
 import lib.ui.*;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class AssertElementPresent extends CoreTestCase {
 
     @Test
     public void testFindArticleTitle() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.skipGreetingOnboardingScreen();
         SearchPageObject.initSearchInput();

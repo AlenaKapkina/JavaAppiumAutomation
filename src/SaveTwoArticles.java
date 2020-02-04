@@ -1,12 +1,13 @@
 import lib.CoreTestCase;
 import lib.ui.*;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SaveTwoArticles extends CoreTestCase {
 
     @Test
     public void testSaveTwoArticlesThenDeleteOneOfThemAndCheckThatTheSecondArticleStillPresent() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.skipGreetingOnboardingScreen();
         SearchPageObject.initSearchInput();
