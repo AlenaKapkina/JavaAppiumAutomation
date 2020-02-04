@@ -1,11 +1,13 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.WebElement;
 
 abstract public class ArticlePageObject extends MainPageObject {
 
     protected static String
             TITLE_TPL,
+            TITLE,
             FIRST_ARTICLE_IN_SEARCH_RESULTS,
             SECOND_ARTICLE_IN_SEARCH_RESULTS,
             ARTICLE_NAME_TPL,
@@ -54,9 +56,18 @@ abstract public class ArticlePageObject extends MainPageObject {
         this.waitForElementPresent(article_name_xpath, "Cannot find article title " + substring);
     }
 
-    public String getArticleTitle(String substring) {
+    public String getArticleTitleAndroid(String substring) {
         String article_name_xpath = getArticleTitleXpath(substring);
         return this.waitForElementAndGetAttribute(article_name_xpath, "text", "Cannot find article title " + substring, 15);
+    }
+
+    public WebElement waitForTitleElement() {
+        return this.waitForElementPresent(TITLE, "Cannot find article title on the page", 15);
+    }
+
+    public String getArticleTitleIOS() {
+        WebElement title_element = waitForTitleElement();
+        return title_element.getAttribute("name");
     }
 
     public void addArticleToMyNewList(String name_of_folder) {
@@ -104,6 +115,10 @@ abstract public class ArticlePageObject extends MainPageObject {
                 "Cannot find requested list by '" + name_of_folder + "' name or the list doesn't exist",
                 5
         );
+    }
+
+    public void addArticleToMySaved() {
+        this.waitForElementAndClick(BOOKMARK_BUTTON, "Cannot find and click bookmark button to add article to reading list", 5);
     }
 
     public void closeArticle() {

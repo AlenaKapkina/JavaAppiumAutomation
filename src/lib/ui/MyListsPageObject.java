@@ -1,12 +1,13 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
-public class MyListsPageObject extends MainPageObject{
+abstract public class MyListsPageObject extends MainPageObject{
 
-    private static final String
-            NAME_OF_FOLDER_XPATH_TPL = "xpath://*[@text='{SUBSTRING}']",
-            ARTICLE_BY_TITLE = "xpath://*[@text='{SUBSTRING}']";
+    protected static String
+            NAME_OF_FOLDER_XPATH_TPL,
+            ARTICLE_BY_TITLE_TPL;
 
     public MyListsPageObject(AppiumDriver driver) {
         super(driver);
@@ -18,7 +19,7 @@ public class MyListsPageObject extends MainPageObject{
     }
 
     private static String getSavedArticleByTitleXpath(String substring) {
-        return ARTICLE_BY_TITLE.replace("{SUBSTRING}", substring);
+        return ARTICLE_BY_TITLE_TPL.replace("{SUBSTRING}", substring);
     }
     /* TEMPLATES METHODS */
 
@@ -52,6 +53,13 @@ public class MyListsPageObject extends MainPageObject{
                 getSavedArticleByTitleXpath(article_title),
                 "Cannot find saved article by title " + article_title
         );
+
+        if (Platform.getInstance().isIOS()) {
+            this.clickElementToTheRightCorner(
+                    getSavedArticleByTitleXpath(article_title),
+                    "Cannot find saved article");
+        }
+
         this.waitForArticleToDisappearByTitle(article_title);
     }
 

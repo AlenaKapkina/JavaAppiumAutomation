@@ -1,5 +1,9 @@
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.*;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListsPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
@@ -18,17 +22,32 @@ public class SaveTwoArticles extends CoreTestCase {
 
         String topic_of_first_requested_article = "Object-oriented programming language";
 
+        //Check with id or xpath on ios
         SearchPageObject.clickByArticleWithSubstringToOpenIt(topic_of_first_requested_article, first_search_request);
 
         String java_article_name = "Java (programming language)";
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
+        //Check with id or xpath on ios
         ArticlePageObject.waitForArticlePresentWithTimeout(java_article_name);
 
         String name_of_folder = "Learning programming";
 
-        ArticlePageObject.addArticleToMyNewList(name_of_folder);
-        ArticlePageObject.closeTheAddedArticleAndTheNoThanksOverlay();
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyNewList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticleToMySaved();
+        }
+
+//        ArticlePageObject.addArticleToMyNewList(name_of_folder);
+
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.closeTheAddedArticleAndTheNoThanksOverlay();
+        } else {
+            ArticlePageObject.closeArticle();
+        }
+
+//        ArticlePageObject.closeTheAddedArticleAndTheNoThanksOverlay();
         SearchPageObject.initSearchInput();
 
         String second_search_request = "Kotlin";
@@ -37,28 +56,48 @@ public class SaveTwoArticles extends CoreTestCase {
 
         String topic_of_second_requested_article = "General-purpose programming language";
 
+        //Check with id or xpath on ios x2
         SearchPageObject.clickByArticleWithSubstringToOpenIt(topic_of_second_requested_article, second_search_request);
 
         String kotlin_article_name = "Kotlin (programming language)";
 
+        //Check with id or xpath on ios x2
         ArticlePageObject.waitForArticlePresentWithTimeout(kotlin_article_name);
 
-        String title_before_adding_to_list = ArticlePageObject.getArticleTitle(kotlin_article_name);
+        //Add title for ios. Create new var
+        String title_before_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
 
-        ArticlePageObject.addArticleToMyOldList(name_of_folder);
-        ArticlePageObject.closeTheAddedArticleAndTheNoThanksOverlay();
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyOldList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticleToMySaved();
+        }
 
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.closeTheAddedArticleAndTheNoThanksOverlay();
+        } else {
+            ArticlePageObject.closeArticle();
+        }
+
+//        ArticlePageObject.addArticleToMyOldList(name_of_folder);
+//        ArticlePageObject.closeTheAddedArticleAndTheNoThanksOverlay();
+
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
 
         NavigationUI.openMyLists();
 
-        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
+        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
 
-        MyListsPageObject.openFolderByName(name_of_folder);
+        if (Platform.getInstance().isAndroid()) {
+            MyListsPageObject.openFolderByName(name_of_folder);
+        }
+
+//        MyListsPageObject.openFolderByName(name_of_folder);
         MyListsPageObject.swipeArticleToDelete(java_article_name);
         MyListsPageObject.checkThatTheArticleWasNotDeletedByMistakeByOpeningIt(kotlin_article_name);
 
-        String title_after_adding_to_list = ArticlePageObject.getArticleTitle(kotlin_article_name);
+        //Add title for ios. Create new var
+        String title_after_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
 
         assertEquals(
                 "The titles are not the same",

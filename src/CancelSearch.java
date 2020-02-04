@@ -1,6 +1,7 @@
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class CancelSearch extends CoreTestCase {
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchRequest("Bugs");
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
 
         ArticlePageObject.findTheSecondArticle();
         SearchPageObject.returnOnMainPageFromSearchResults();

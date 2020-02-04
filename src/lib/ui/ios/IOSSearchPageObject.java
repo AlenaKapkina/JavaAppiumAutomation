@@ -9,7 +9,7 @@ public class IOSSearchPageObject extends SearchPageObject {
         SKIP_BUTTON = "xpath:";
         SEARCH_INIT_ELEMENT = "xpath:";
         SEARCH_INPUT = "xpath:";
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath:";
+        SEARCH_RESULT_BY_SUBSTRING = "xpath:";
         BACK_BUTTON_ON_SEARCH_RESULT_SCREEN = "xpath:";
     }
 

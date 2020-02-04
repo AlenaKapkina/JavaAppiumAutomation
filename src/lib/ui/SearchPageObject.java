@@ -9,6 +9,7 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_INIT_ELEMENT,
             SEARCH_INPUT,
             SEARCH_RESULT_BY_SUBSTRING_TPL,
+            SEARCH_RESULT_BY_SUBSTRING,
             BACK_BUTTON_ON_SEARCH_RESULT_SCREEN;
 
     public SearchPageObject(AppiumDriver driver) {
