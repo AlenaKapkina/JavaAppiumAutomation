@@ -6,11 +6,11 @@ import lib.ui.SearchPageObject;
 public class IOSSearchPageObject extends SearchPageObject {
 
     static {
-        SKIP_BUTTON = "xpath:";
-        SEARCH_INIT_ELEMENT = "xpath:";
-        SEARCH_INPUT = "xpath:";
-        SEARCH_RESULT_BY_SUBSTRING = "xpath:";
-        BACK_BUTTON_ON_SEARCH_RESULT_SCREEN = "xpath:";
+        SKIP_BUTTON = "xpath://XCUIElementTypeStaticText[@name='Skip']";
+        SEARCH_INIT_ELEMENT = "xpath://XCUIElementTypeSearchField[@name='Search Wikipedia']";
+        SEARCH_INPUT = "xpath://XCUIElementTypeSearchField[@name='Search Wikipedia']";
+        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://XCUIElementTypeLink[contains(@name, {SUBSTRING})]";
+        BACK_BUTTON_ON_SEARCH_RESULT_SCREEN = "xpath://XCUIElementTypeStaticText[@name='Cancel']";
     }
 
     public IOSSearchPageObject(AppiumDriver driver) {

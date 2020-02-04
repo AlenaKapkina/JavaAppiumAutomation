@@ -5,7 +5,7 @@ import lib.ui.NavigationUI;
 
 public class IOSNavigationUI extends NavigationUI {
     static {
-        MY_LISTS_XPATH = "xpath:";
+        MY_LISTS_LINK = "id:Saved";
     }
 
     public IOSNavigationUI(AppiumDriver driver) {

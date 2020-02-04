@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.WebElement;
 
 abstract public class SearchPageObject extends MainPageObject {
 
@@ -9,7 +10,6 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_INIT_ELEMENT,
             SEARCH_INPUT,
             SEARCH_RESULT_BY_SUBSTRING_TPL,
-            SEARCH_RESULT_BY_SUBSTRING,
             BACK_BUTTON_ON_SEARCH_RESULT_SCREEN;
 
     public SearchPageObject(AppiumDriver driver) {
@@ -47,5 +47,14 @@ abstract public class SearchPageObject extends MainPageObject {
     public void clickByArticleWithSubstringToOpenIt(String substring, String search_request) {
         String search_result_xpath = getResultSearchElement(substring);
         this.waitForElementAndClick(search_result_xpath, "Cannot find '" + substring + "' topic searching by " + search_request + "and click on the article", 15);
+    }
+
+    private WebElement waitForTitleElement(String substring) {
+        return this.waitForElementPresent(getResultSearchElement(substring), "Cannot find article title on the page of search results", 15);
+    }
+
+    public String getArticleTitleFromSearchResultsIOS(String substring) {
+        WebElement title_element = this.waitForTitleElement(substring);
+        return title_element.getAttribute("name");
     }
 }

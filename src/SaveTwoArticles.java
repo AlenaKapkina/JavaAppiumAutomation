@@ -64,8 +64,16 @@ public class SaveTwoArticles extends CoreTestCase {
         //Check with id or xpath on ios x2
         ArticlePageObject.waitForArticlePresentWithTimeout(kotlin_article_name);
 
+        String title_before_adding_to_list;
+
+        if (Platform.getInstance().isAndroid()) {
+            title_before_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
+        } else {
+            title_before_adding_to_list = SearchPageObject.getArticleTitleFromSearchResultsIOS(kotlin_article_name);
+        }
+
         //Add title for ios. Create new var
-        String title_before_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
+//        String title_before_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
 
         if (Platform.getInstance().isAndroid()) {
             ArticlePageObject.addArticleToMyOldList(name_of_folder);
@@ -96,8 +104,17 @@ public class SaveTwoArticles extends CoreTestCase {
         MyListsPageObject.swipeArticleToDelete(java_article_name);
         MyListsPageObject.checkThatTheArticleWasNotDeletedByMistakeByOpeningIt(kotlin_article_name);
 
+
+        String title_after_adding_to_list;
+
+        if (Platform.getInstance().isAndroid()) {
+            title_after_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
+        } else {
+            title_after_adding_to_list = MyListsPageObject.getArticleTitleFromMyListsIOS(kotlin_article_name);
+        }
+
         //Add title for ios. Create new var
-        String title_after_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
+//        String title_after_adding_to_list = ArticlePageObject.getArticleTitleAndroid(kotlin_article_name);
 
         assertEquals(
                 "The titles are not the same",

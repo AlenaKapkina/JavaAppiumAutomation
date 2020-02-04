@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.WebElement;
 
 abstract public class MyListsPageObject extends MainPageObject{
 
@@ -71,5 +72,12 @@ abstract public class MyListsPageObject extends MainPageObject{
         );
     }
 
+    private WebElement waitForTitleElement(String substring) {
+        return this.waitForElementPresent(getSavedArticleByTitleXpath(substring), "Cannot find article title on the page of saved articles", 15);
+    }
 
+    public String getArticleTitleFromMyListsIOS(String substring) {
+        WebElement title_element = this.waitForTitleElement(substring);
+        return title_element.getAttribute("name");
+    }
 }
