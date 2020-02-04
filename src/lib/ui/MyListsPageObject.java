@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 public class MyListsPageObject extends MainPageObject{
 
     private static final String
-            NAME_OF_FOLDER_XPATH_TPL = "//*[@text='{SUBSTRING}']",
-            ARTICLE_BY_TITLE = "//*[@text='{SUBSTRING}']";
+            NAME_OF_FOLDER_XPATH_TPL = "xpath://*[@text='{SUBSTRING}']",
+            ARTICLE_BY_TITLE = "xpath://*[@text='{SUBSTRING}']";
 
     public MyListsPageObject(AppiumDriver driver) {
         super(driver);
@@ -25,7 +25,7 @@ public class MyListsPageObject extends MainPageObject{
 
     public void openFolderByName(String name_of_folder) {
         this.waitForElementAndClick(
-                By.xpath(getNameOfFolderXpath(name_of_folder)),
+                getNameOfFolderXpath(name_of_folder),
                 "Cannot find needed reading list by name " + name_of_folder,
                 5
         );
@@ -33,7 +33,7 @@ public class MyListsPageObject extends MainPageObject{
 
     public void waitForArticleToAppearByTitle(String article_title) {
         this.waitForElementPresent(
-                By.xpath(getSavedArticleByTitleXpath(article_title)),
+                getSavedArticleByTitleXpath(article_title),
                 "Cannot find the article named" + article_title,
                 5
         );
@@ -41,7 +41,7 @@ public class MyListsPageObject extends MainPageObject{
 
     public void waitForArticleToDisappearByTitle(String article_title) {
         this.waitForElementNotPresent(
-                By.xpath(getSavedArticleByTitleXpath(article_title)),
+                getSavedArticleByTitleXpath(article_title),
                 "The article named" + article_title + " was not deleted",
                 5
         );
@@ -50,7 +50,7 @@ public class MyListsPageObject extends MainPageObject{
     public void swipeArticleToDelete(String article_title) {
         this.waitForArticleToAppearByTitle(article_title);
         this.swipeElementToLeft(
-                By.xpath(getSavedArticleByTitleXpath(article_title)),
+                getSavedArticleByTitleXpath(article_title),
                 "Cannot find saved article by title " + article_title
         );
         this.waitForArticleToDisappearByTitle(article_title);
@@ -58,7 +58,7 @@ public class MyListsPageObject extends MainPageObject{
 
     public void checkThatTheArticleWasNotDeletedByMistakeByOpeningIt(String article_title) {
         this.waitForElementAndClick(
-                By.xpath(getSavedArticleByTitleXpath(article_title)),
+                getSavedArticleByTitleXpath(article_title),
                 "There's no such article. Probably requested article was deleted by mistake on the previous step",
                 5
         );
