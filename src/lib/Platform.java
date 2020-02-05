@@ -54,7 +54,8 @@ public class Platform {
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
-        capabilities.setCapability("app", "C:/Users/kapkina.a/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
+//        capabilities.setCapability("app", "C:/Users/kapkina.a/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
+        capabilities.setCapability("app", "/Users/test/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
 
         return capabilities;
     }
